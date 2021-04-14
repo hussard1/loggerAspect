@@ -15,3 +15,10 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: none
+
+logging:
+  level:
+    root: info
+  file:
+    name: logs/application.log
+
