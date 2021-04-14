@@ -1,6 +1,6 @@
-package com.hussard01.application.user.model;
+package com.hussard01.application.model;
 
-import com.hussard01.domain.user.entity.User;
+import com.hussard01.domain.entity.User;
 import lombok.Getter;
 import lombok.ToString;
 

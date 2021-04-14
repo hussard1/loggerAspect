@@ -1,16 +1,14 @@
 package com.hussard01.configuration;
 
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 
 @Aspect
 @Slf4j
@@ -32,16 +30,37 @@ public class LoggerAspect {
         return proceed;
     }
 
-    @Around("logController()")
-    public Object logController(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Before("logController()")
+    public void beforeController(JoinPoint joinPoint) {
         HttpServletRequest request =
                 ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
-        LogRequest logRequest = LogRequest.create(joinPoint, request);
+        LogHttpRequest logHttpRequest = LogHttpRequest.create(joinPoint, request);
 
-        log.info("Request is {} ", logRequest);
-        return joinPoint.proceed();
+        log.info("*******************************************");
+        log.info("HTTP Request ::: {} ", logHttpRequest);
+        log.info("*******************************************");
     }
+
+    @AfterReturning(value = "logController()", returning = "ret")
+    public void afterController(JoinPoint joinPoint, Object ret) throws Throwable {
+        LogHttpResponse logHttpResponse = LogHttpResponse.create(joinPoint, ret);
+
+        log.info("*******************************************");
+        log.info("HTTP Response ::: {} ", logHttpResponse);
+        log.info("*******************************************");
+    }
+
+    @AfterThrowing(pointcut = "logController()", throwing = "ex")
+    public void afterThrowingFindAccountsAdvice(JoinPoint joinPoint, Throwable ex) throws Throwable {
+
+        LogException logException = LogException.create(joinPoint, ex);
+
+        log.error("*******************************************");
+        log.error("Exception ::: {} ", logException);
+        log.error("*******************************************");
+    }
+
 
 
 }

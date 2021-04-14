@@ -1,8 +1,8 @@
-package com.hussard01.application.user.service;
+package com.hussard01.application.service;
 
-import com.hussard01.application.user.model.UserRequest;
-import com.hussard01.application.user.model.UserResponse;
-import com.hussard01.domain.user.service.UserDomainService;
+import com.hussard01.application.model.UserRequest;
+import com.hussard01.application.model.UserResponse;
+import com.hussard01.domain.service.UserDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

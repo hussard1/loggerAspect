@@ -1,8 +1,9 @@
-package com.hussard01.application.user.controller;
+package com.hussard01.application.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hussard01.domain.user.entity.User;
-import com.hussard01.domain.user.repository.UserRepository;
+import com.hussard01.application.service.UserService;
+import com.hussard01.domain.entity.User;
+import com.hussard01.domain.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,9 @@ class UserControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -64,6 +68,19 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("유저 한명 저장 실패 테스트")
+    void testSaveUserException() throws Exception {
+        // given
+        long userId = 99999999L;
+
+        // when // then
+        mvc.perform(get("/users/{id}", userId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
 }

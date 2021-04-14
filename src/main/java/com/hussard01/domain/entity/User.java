@@ -1,4 +1,4 @@
-package com.hussard01.domain.user.entity;
+package com.hussard01.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

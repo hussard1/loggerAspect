@@ -1,8 +1,7 @@
-package com.hussard01.domain.user.service;
+package com.hussard01.domain.service;
 
-import com.hussard01.application.user.model.UserResponse;
-import com.hussard01.domain.user.entity.User;
-import com.hussard01.domain.user.repository.UserRepository;
+import com.hussard01.domain.entity.User;
+import com.hussard01.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

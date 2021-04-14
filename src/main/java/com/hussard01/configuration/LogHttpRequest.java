@@ -3,7 +3,7 @@ package com.hussard01.configuration;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.CodeSignature;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ import java.util.Enumeration;
 @Getter
 @Builder
 @ToString
-public class LogRequest {
+public class LogHttpRequest {
 
     private final String className;
     private final String methodName;
@@ -20,12 +20,12 @@ public class LogRequest {
     private final String requestHeaders;
     private final String requestPayload;
 
-    public static LogRequest create(ProceedingJoinPoint joinPoint, HttpServletRequest request) {
+    public static LogHttpRequest create(JoinPoint joinPoint, HttpServletRequest request) {
 
         String className = joinPoint.getSignature().getDeclaringType().getSimpleName();
         String methodName = joinPoint.getSignature().getName();
 
-        return LogRequest.builder()
+        return LogHttpRequest.builder()
                 .className(className)
                 .methodName(methodName)
                 .requestURI(request.getRequestURI())
@@ -46,7 +46,7 @@ public class LogRequest {
         return  builder.toString();
     }
 
-    private static String getPayload(ProceedingJoinPoint joinPoint) {
+    private static String getPayload(JoinPoint joinPoint) {
         CodeSignature signature = (CodeSignature) joinPoint.getSignature();
         StringBuilder builder = new StringBuilder();
 
